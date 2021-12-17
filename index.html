@@ -271,9 +271,10 @@
                     if (shuffle.length === mine) break;
                 }
 
+                // [120, 140, 230]
                 // 지뢰 심기
                 for (let i = 0; i < shuffle.length; i++) {
-                    const rowIdx = Math.floor(shuffle[i] / row);
+                    const rowIdx = Math.floor(shuffle[i] / cell);
                     const colIdx = shuffle[i] % cell;
                     cellAry[rowIdx][colIdx] = CODE.MINE;
                 }
