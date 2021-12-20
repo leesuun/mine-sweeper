@@ -84,11 +84,13 @@
 
             //빈칸 열기
             function open(rI, cI) {
-                const target = tbody.children[rI]?.children[cI];
                 if (data[rI]?.[cI] >= CODE.OPENED) return;
-                if (!target) return;
+                const target = tbody.children[rI]?.children[cI];
+                if (!target) {
+                    return;
+                }
 
-                let count = mineCount(rI, cI);
+                const count = mineCount(rI, cI);
                 target.textContent = count || "";
                 target.className = "opened";
                 data[rI][cI] = count;
@@ -109,9 +111,9 @@
 
             //빈칸 전이 시키기(재귀)
             function openAround(rI, cI) {
-                const count = open(rI, cI); //지뢰의 개수 카운트
-
                 setTimeout(() => {
+                    const count = open(rI, cI); //지뢰의 개수 카운트
+
                     if (count === 0) {
                         openAround(rI - 1, cI - 1);
                         openAround(rI - 1, cI);
@@ -180,14 +182,10 @@
                 const cellIdx = target.cellIndex; // cell 인덱스
                 let cellCode = data[rowIdx][cellIdx];
 
-                console.log(cellCode);
-
                 // 첫번째 누른칸이 지뢰면 지뢰 위치 이동
                 if (firstClick) {
                     moveMine(rowIdx, cellIdx);
                     cellCode = data[rowIdx][cellIdx];
-                    // console.log(data);
-                    console.log(cellCode);
                 }
 
                 if (cellCode === CODE.BLANK) {
@@ -252,7 +250,7 @@
 
                 // 2차원 테이블 데이터
                 const cellAry = [];
-                for (let i = 0; i < cell; i++) {
+                for (let i = 0; i < row; i++) {
                     const rowIdx = [];
                     for (let j = 0; j < cell; j++) {
                         rowIdx.push(CODE.BLANK);
@@ -273,11 +271,13 @@
 
                 // [120, 140, 230]
                 // 지뢰 심기
+
                 for (let i = 0; i < shuffle.length; i++) {
                     const rowIdx = Math.floor(shuffle[i] / cell);
                     const colIdx = shuffle[i] % cell;
                     cellAry[rowIdx][colIdx] = CODE.MINE;
                 }
+
                 return cellAry;
             }
 
